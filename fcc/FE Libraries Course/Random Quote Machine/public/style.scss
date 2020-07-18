@@ -1,0 +1,21 @@
+body {
+    font-size: 16px;
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: linear-gradient(pink, rgb(0, 205, 255));
+}
+#quote-box {
+    width: 500px;
+    height: auto;
+    padding: 20px;
+    background-color: white;
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+#text {
+    font-size: 2em;
+    font-style: italic;
+}
