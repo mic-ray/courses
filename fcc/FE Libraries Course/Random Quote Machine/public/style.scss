@@ -1,21 +1,30 @@
 body {
     font-size: 16px;
     height: 100%;
-    margin: 0;
-    background-repeat: no-repeat;
+    margin: 0 auto;
     background-attachment: fixed;
     background-image: linear-gradient(pink, rgb(0, 205, 255));
 }
 #quote-box {
-    width: 500px;
-    height: auto;
+    width: fit-content;
     padding: 20px;
     background-color: white;
-    margin: 20px auto;
+    margin: 50px auto;
     border-radius: 10px;
 }
 
 #text {
     font-size: 2em;
     font-style: italic;
+    text-align: center;
+    padding: 5px 20px;
+}
+
+#author {
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+#creator > a {
+    color: black;
 }
