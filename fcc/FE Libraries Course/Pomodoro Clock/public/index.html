@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CodePen - FCC (FE Libraries Course): Random Quote Machine</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="./style.css" />
+        <script src="../index.js"></script>
+    </head>
+    <body>
+        <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+        <div class="container">
+            <div class="break-setting">
+                <p id="break-label">
+                    Break length
+                </p>
+            </div>
+            <div class="session-setting">
+                <p id="session-label">
+                    Session length
+                </p>
+            </div>
+            <div class="break-btn">
+                <button class="btn" id="break-decrement">
+                    <i class="fa fa-minus"></i>
+                </button>
+
+                <span id="break-length">1</span>
+                <button class="btn" id="break-increment">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+            <div class="session-btn">
+                <button class="btn" id="session-decrement">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <span id="session-length">1</span>
+                <button class="btn" id="session-increment">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="timer-container">
+            <p id="timer-label">Session</p>
+            <p id="time-left">25:00</p>
+            <div class="timer-btn">
+                <button class="btn" id="start_stop">
+                    <i class="fa fa-play"></i>
+                    <i class="fa fa-pause"></i>
+                </button>
+                <button class="btn" id="reset">
+                    <i class="fa fa-undo"></i>
+                </button>
+            </div>
+        </div>
+    </body>
+</html>

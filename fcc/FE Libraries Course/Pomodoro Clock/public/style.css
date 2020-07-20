@@ -1,0 +1,64 @@
+body {
+  font-size: 20px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin: 0 auto;
+  background-attachment: fixed;
+  background-image: linear-gradient(pink, #00cdff);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  margin: 20px auto;
+  width: 500px;
+  justify-items: center;
+}
+
+.break-setting {
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+
+.session-setting {
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+.break-btn {
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
+
+.session-btn {
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+
+.timer-container {
+  padding: 10px 20px;
+  border: 5px solid black;
+  border-radius: 10px;
+  width: 300px;
+  margin: auto;
+  display: grid;
+  justify-items: center;
+}
+.timer-container #timer-label {
+  font-size: 2em;
+  margin: 0px;
+}
+.timer-container #time-left {
+  font-size: 3em;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 20px;
+}
+
+.btn {
+  padding: 5px 10px;
+  background: none;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+/*# sourceMappingURL=style.css.map */
