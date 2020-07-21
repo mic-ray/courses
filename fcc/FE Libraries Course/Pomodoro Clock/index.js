@@ -1,50 +1,85 @@
 var breakLength = 5;
 var sessionLength = 25;
+var time = sessionLength * 60;
+var paused = true;
 
 $(function () {
     initTimer();
     // Add event listener to new quote button
     $('#break-increment').click(() => {
-        breakLength++;
-        $('#break-length').text(breakLength);
+        if (paused) {
+            breakLength++;
+            $('#break-length').text(breakLength);
+            initTimer();
+        }
     });
     $('#break-decrement').click(() => {
-        if (breakLength > 1) {
-            breakLength--;
-            $('#break-length').text(breakLength);
+        if (paused) {
+            if (breakLength > 1) {
+                breakLength--;
+                $('#break-length').text(breakLength);
+                initTimer();
+            }
         }
     });
     $('#session-increment').click(() => {
-        sessionLength++;
-        $('#session-length').text(sessionLength);
-    });
-    $('#session-decrement').click(() => {
-        if (sessionLength > 1) {
-            sessionLength--;
-            $('#session-length').text(sessionLength);
+        if (paused) {
+            if (sessionLength < 60) {
+                sessionLength++;
+                $('#session-length').text(sessionLength);
+                time = sessionLength * 60;
+                initTimer();
+            }
         }
     });
-    $('#start_stop').click(() => startSession());
+    $('#session-decrement').click(() => {
+        if (paused) {
+            if (sessionLength > 1) {
+                sessionLength--;
+                $('#session-length').text(sessionLength);
+                time = sessionLength * 60;
+                initTimer();
+            }
+        }
+    });
+    $('#start_stop').click(() => {
+        paused = !paused;
+        timer();
+    });
+    $('#reset').click(() => resetTimer());
 });
 
 const initTimer = () => {
     $('#break-length').text(breakLength);
     $('#session-length').text(sessionLength);
-    $('#time-left').text(sessionLength + ':00');
+    $('#time-left').text(convertTime(time));
 };
 
-function startSession() {
-    var start = Date.now();
-    var duration = sessionLength * 60;
-    // does the same job as parseInt truncates the float
-    var timer = setInterval(() => {
-        var diff = duration - (((Date.now() - start) / 1000) | 0);
+const timer = () => {
+    const updateTimer = () => {
+        if (!paused) {
+            time--;
+            $('#time-left').text(convertTime(time));
+            setTimeout(updateTimer, 1000);
+        }
+    };
+    updateTimer();
+};
 
-        minutes = Math.floor(diff / 60)
+const resetTimer = () => {
+    breakLength = 5;
+    sessionLength = 25;
+    time = sessionLength * 60;
+    paused = true;
+    initTimer();
+};
+
+const convertTime = (time) => {
+    return (
+        Math.floor(time / 60)
             .toString()
-            .padStart(2, '0');
-        seconds = (diff % 60).toString().padStart(2, '0');
-
-        $('#time-left').text(minutes + ':' + seconds);
-    }, 1000);
-}
+            .padStart(2, '0') +
+        ':' +
+        (time % 60).toString().padStart(2, '0')
+    );
+};
