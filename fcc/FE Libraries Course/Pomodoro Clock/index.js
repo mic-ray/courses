@@ -9,7 +9,6 @@ $(function () {
     $('#break-increment').click(() => {
         if (paused) {
             breakLength++;
-            $('#break-length').text(breakLength);
             initTimer();
         }
     });
@@ -17,7 +16,6 @@ $(function () {
         if (paused) {
             if (breakLength > 1) {
                 breakLength--;
-                $('#break-length').text(breakLength);
                 initTimer();
             }
         }
@@ -26,7 +24,6 @@ $(function () {
         if (paused) {
             if (sessionLength < 60) {
                 sessionLength++;
-                $('#session-length').text(sessionLength);
                 time = sessionLength * 60;
                 initTimer();
             }
@@ -36,7 +33,6 @@ $(function () {
         if (paused) {
             if (sessionLength > 1) {
                 sessionLength--;
-                $('#session-length').text(sessionLength);
                 time = sessionLength * 60;
                 initTimer();
             }
