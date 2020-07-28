@@ -1,0 +1,53 @@
+body {
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 auto;
+  background-attachment: fixed;
+  background-image: linear-gradient(pink, #00cdff);
+}
+
+.container {
+  margin: 20px auto;
+  width: 300px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.buttons .button {
+  min-height: 50px;
+  background-color: black;
+  color: white;
+  font-size: 1.5em;
+  border: 1.5px solid white;
+}
+.buttons .button:hover {
+  background-color: #333333;
+}
+.buttons .button:active {
+  background-color: #666666;
+}
+.buttons #equals {
+  background-color: orange;
+  grid-column: 4/5;
+  grid-row: 2/6;
+}
+.buttons #clear {
+  background-color: #960000;
+}
+
+#display {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border: 1.5px solid white;
+  text-align: right;
+}
+
+/*# sourceMappingURL=style.css.map */
