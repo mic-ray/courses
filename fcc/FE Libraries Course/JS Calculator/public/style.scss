@@ -42,10 +42,17 @@ body {
     }
 }
 
-#display {
+.output {
     background-color: black;
-    color: white;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
     padding: 10px;
     border: 1.5px solid white;
     text-align: right;
+    .formula {
+        color: orange;
+    }
+    #display {
+        color: white;
+    }
 }

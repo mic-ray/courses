@@ -1,86 +1,94 @@
+const Type = Object.freeze({
+    op: 'operator',
+    num: 'number',
+    eval: 'evaluate',
+    clear: 'clear',
+    dec: 'decimal',
+});
+
 const buttons = [
     {
-        keyCode: 87,
+        type: Type.op,
         text: '+',
         id: 'add',
     },
     {
-        keyCode: 87,
+        type: Type.op,
         text: '-',
         id: 'subtract',
     },
     {
-        keyCode: 69,
+        type: Type.op,
         text: '*',
         id: 'multiply',
     },
     {
-        keyCode: 65,
+        type: Type.op,
         text: '/',
         id: 'divide',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '7',
         id: 'seven',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '8',
         id: 'eight',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '9',
         id: 'nine',
     },
     {
-        keyCode: 83,
+        type: Type.eval,
         text: '=',
         id: 'equals',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '4',
         id: 'four',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '5',
         id: 'five',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '6',
         id: 'six',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '1',
         id: 'one',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '2',
         id: 'two',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '3',
         id: 'three',
     },
     {
-        keyCode: 83,
+        type: Type.dec,
         text: '.',
         id: 'decimal',
     },
     {
-        keyCode: 83,
+        type: Type.num,
         text: '0',
         id: 'zero',
     },
     {
-        keyCode: 83,
+        type: Type.clear,
         text: 'AC',
         id: 'clear',
     },
@@ -94,9 +102,23 @@ class Button extends React.Component {
     }
 
     handleKey() {
-        if (this.props.id === 'clear') {
-            this.props.resetDisplay();
-        } else this.props.changeDisplay(this.props.text);
+        switch (this.props.type) {
+            case Type.num:
+                this.props.handleNum(this.props.text);
+                break;
+            case Type.dec:
+                this.props.handleDec();
+                break;
+            case Type.op:
+                this.props.handleOp(this.props.text);
+                break;
+            case Type.eval:
+                this.props.evaluate();
+                break;
+            case Type.clear:
+                this.props.reset();
+                break;
+        }
     }
 
     render() {
@@ -111,67 +133,138 @@ class Button extends React.Component {
         );
     }
 }
-
-class Buttons extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        const btns = buttons.map((btn, i) => (
-            <Button
-                key={i}
-                changeDisplay={this.props.changeDisplay}
-                resetDisplay={this.props.resetDisplay}
-                id={btn.id}
-                text={btn.text}
-                keyCode={btn.keyCode}
-            />
-        ));
-        return <div className="buttons">{btns}</div>;
-    }
-}
-
 // Main App component
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             display: '0',
+            formula: '0',
         };
-        this.changeDisplay = this.changeDisplay.bind(this);
-        this.resetDisplay = this.resetDisplay.bind(this);
+        this.handleNum = this.handleNum.bind(this);
+        this.handleDec = this.handleDec.bind(this);
+        this.handleOp = this.handleOp.bind(this);
+        this.evaluate = this.evaluate.bind(this);
+        this.reset = this.reset.bind(this);
     }
     /**
-     * Changes the display
-     * @param {*} s String to display
+     * Handles the input of a number
+     * @param {String} s Number to be input
      */
-    changeDisplay(s) {
-        if (this.state.display.startsWith('0')) {
-            this.setState({
-                display: s,
-            });
-        } else
+    handleNum(s) {
+        // Get the current display
+        let currentDisplay = this.state.display;
+        // The new String to display
+        let newDisplay = '';
+        // If the currentDisplay has a leading zero
+        // or is already an answer from a previous equation
+        // (that is the case if the formula already contains
+        // an equation and no further operator was yet entered
+        // into the current display)
+        if (
+            currentDisplay.startsWith('0') ||
+            (this.state.formula.includes('=') && currentDisplay.match(/\d$/))
+        ) {
+            // Just add the entered input
+            newDisplay = s;
+        } else {
+            // Otherwise append the entered
+            // input to current display
+            newDisplay = currentDisplay + s;
+        }
+        // Update display
+        this.setState({
+            display: newDisplay,
+        });
+    }
+
+    /**
+     * Handles the input of
+     * a decimal point
+     */
+    handleDec() {
+        let currentDisplay = this.state.display;
+        // If no decimal point was entered yet
+        if (!currentDisplay.includes('.')) {
+            // If the last character in the
+            // current display is a number
+            if (currentDisplay.match(/\d$/)) {
+                // Update display with appended decimal point
+                this.setState({
+                    display: currentDisplay + '.',
+                });
+            }
+        }
+    }
+
+    /**
+     * Handles the input of an operator
+     * @param {String} s Operator to be added
+     */
+    handleOp(s) {
+        // If the last character in the
+        // current display is a number
+        if (this.state.display.match(/\d$/))
+            // Update display with appended operator
             this.setState({
                 display: this.state.display + s,
             });
     }
 
     /**
+     * Evaluates the currently entered expression
+     */
+    evaluate() {
+        // If the last character in the
+        // current display is a number
+        // (For the case where an operator
+        // was input last)
+        if (this.state.display.match(/\d$/)) {
+            // Evaluate answer
+            let answer = eval(this.state.display);
+            // Update display to show answer
+            // and formula to show the
+            // evaluated equation
+            this.setState({
+                display: answer.toString(),
+                formula: this.state.display + '=' + answer,
+            });
+        }
+    }
+
+    /**
      * Resets the display
      */
-    resetDisplay() {
+    reset() {
+        // Updated display and formula
+        // states to display zero values
         this.setState({
             display: '0',
+            formula: '0',
         });
     }
+
     render() {
+        const btns = buttons.map((btn, i) => (
+            <Button
+                key={i}
+                id={btn.id}
+                text={btn.text}
+                type={btn.type}
+                handleNum={this.handleNum}
+                handleDec={this.handleDec}
+                handleOp={this.handleOp}
+                evaluate={this.evaluate}
+                reset={this.reset}
+            />
+        ));
         return (
             <div className="container" id="js-calc">
-                <div id="display">{this.state.display}</div>
-                <Buttons
-                    resetDisplay={this.resetDisplay}
-                    changeDisplay={this.changeDisplay}
-                />
+                <div className="output">
+                    <div className="formula">{this.state.formula}</div>
+                    <div id="display">{this.state.display}</div>
+                </div>
+                <div className="buttons">{btns}</div>
             </div>
         );
     }
