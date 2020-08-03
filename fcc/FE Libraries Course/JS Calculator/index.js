@@ -225,7 +225,7 @@ class App extends React.Component {
         if (this.state.display.match(/\d$/)) {
             // Remove unnecessary operators
             let evaluate = this.state.display.replace(
-                /[\*\-\+\/]+(?!(\-\d)|\d)/g,
+                /[\*\-\+\/]+(?!\-?\d)/g,
                 ''
             );
             // Evaluate answer
