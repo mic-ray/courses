@@ -204,7 +204,10 @@ class App extends React.Component {
     handleOp(s) {
         // If the last character in the
         // current display is a number
-        if (this.state.display.match(/\d$/))
+        // or one or multiple operators
+        // (since input of multiple operators
+        // is required to be allowed)
+        if (this.state.display.match(/\d$|[\*\-\+\/]+$/))
             // Update display with appended operator
             this.setState({
                 display: this.state.display + s,
@@ -220,8 +223,13 @@ class App extends React.Component {
         // (For the case where an operator
         // was input last)
         if (this.state.display.match(/\d$/)) {
+            // Remove unnecessary operators
+            let evaluate = this.state.display.replace(
+                /[\*\-\+\/]+(?!(\-\d)|\d)/g,
+                ''
+            );
             // Evaluate answer
-            let answer = eval(this.state.display);
+            let answer = eval(evaluate);
             // Update display to show answer
             // and formula to show the
             // evaluated equation
