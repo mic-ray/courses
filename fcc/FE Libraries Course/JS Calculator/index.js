@@ -1,3 +1,4 @@
+// Button type enum
 const Type = Object.freeze({
     op: 'operator',
     num: 'number',
@@ -6,6 +7,7 @@ const Type = Object.freeze({
     dec: 'decimal',
 });
 
+// Calculator buttons
 const buttons = [
     {
         type: Type.op,
@@ -154,16 +156,16 @@ class App extends React.Component {
     handleNum(s) {
         // Get the current display
         let currentDisplay = this.state.display;
+        // Get the current formula
+        let formula = this.state.formula;
         // The new String to display
         let newDisplay = '';
-        // If the currentDisplay has a leading zero
-        // or is already an answer from a previous equation
-        // (that is the case if the formula already contains
-        // an equation and no further operator was yet entered
-        // into the current display)
+        // If the currentDisplay is just a zero
+        // or is equal to the answer of a previous equation
+        // (To replace the previous answer with new input)
         if (
-            currentDisplay.startsWith('0') ||
-            (this.state.formula.includes('=') && currentDisplay.match(/\d$/))
+            currentDisplay === '0' ||
+            (formula.includes('=') && currentDisplay === formula.split('=')[1])
         ) {
             // Just add the entered input
             newDisplay = s;
@@ -184,11 +186,15 @@ class App extends React.Component {
      */
     handleDec() {
         let currentDisplay = this.state.display;
-        // If no decimal point was entered yet
-        if (!currentDisplay.includes('.')) {
-            // If the last character in the
-            // current display is a number
-            if (currentDisplay.match(/\d$/)) {
+        // If the last character in the
+        // current display is a number
+        if (currentDisplay.match(/\d$/)) {
+            // Get all the numbers in the current display
+            let numbers = currentDisplay.split(/[\*\-\+\/]/);
+            // Get the current number, which is the last one entered
+            let currentNumber = numbers[numbers.length - 1];
+            // If the current number does not have a decimal point yet
+            if (!currentNumber.includes('.')) {
                 // Update display with appended decimal point
                 this.setState({
                     display: currentDisplay + '.',
